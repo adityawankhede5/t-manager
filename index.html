@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ledger App</title>
+    <script src="./main.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div id="main-container">
+        <header><i onclick="endTransaction()" class="material-icons">home</i></header>
+        <div id="everything">
+
+        </div>
+    </div>
+</body>
+
+<script src="./newTrans.js"></script>
+<script src="./processItems.js"></script>
+<script src="./allTransactions.js"></script>
+
+<script>
+        if(localStorage.length===0){
+            // console.log("CREATE A NEW TRANSACTION!");
+    
+            // SHOW ONLY NEW TRANSACTION BUTTON
+            document.getElementById('everything').insertAdjacentHTML('beforeend', '<div class="scontainer" id="sicontainer"><button name="new" id="newTransBtn" onclick="initNewTrans()">Create New Transaction</button></div>');
+        
+        }else{
+            // console.log("TRANSACTIONS ALREADY PRESENT");
+    
+            // SHOW NEW TRANSACTION AND ALL TRANSACTION BUTTONS
+            document.getElementById('everything').insertAdjacentHTML('beforeend', '<div class="scontainer" id="shcontainer-create"><button name="new" id="newTransBtn" onclick="initNewTrans()">Create New Transaction</button></div>');
+            document.getElementById('everything').insertAdjacentHTML('beforeend', '<div class="scontainer" id="shcontainer-read"><button name="all" id="allTransBtn" onclick="getAllTransactions()">All Transactions</button></div>');
+            getAllTransactions();
+            
+        }
+        
+</script>
+
+</html>
