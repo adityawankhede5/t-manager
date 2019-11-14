@@ -4,6 +4,7 @@ html{
 }
 body{
     font-family: 'Open Sans', sans-serif;
+    transform: scale(1.5);
 }
 
 /* <i class="material-icons">check_box_outline_blank</i> */
