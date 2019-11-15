@@ -84,7 +84,7 @@ const displayReceipt = (receipt, tid) => {
         mtotal = mtotal.toFixed(2);
         document.getElementById(`rmember-${i}-name`).innerText += `: ${mtotal}`;
         document.getElementById(`rmember-${i}-paid`).innerText += `: ${member.paidamount}`;
-        document.getElementById(`rmember-${i}-total`).innerText += `: ${member.paidamount-mtotal}`;
+        document.getElementById(`rmember-${i}-total`).innerText += `: ${(member.paidamount-mtotal).toFixed(2)}`;
     });
     document.getElementById(`receipt-${tid}-details`).style.animation = 'slideup 0.4s ease';
 }
