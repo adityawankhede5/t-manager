@@ -15,7 +15,7 @@ const initNewTrans = ()=>{
     today = new Date().toDateString();
 
     //GET THE PERSON NAMES
-    document.getElementById('main-container').insertAdjacentHTML('afterbegin', `<div class="ntinit" id="people"><div class="tdateinfo">${today}</div><form id="addperson-form"><div class="finput"><input type="text" name="person" id="personName" required minlength="4" maxlength="10" autocomplete="off" placeholder="Person name"><button type="submit"><i class="material-icons">person_add</i></button></div></form><form id="newTransaction-form"><input type="text" name="transaction-name" id="transaction-name" required minlength="2" maxlength="20" autocomplete="off" placeholder="Transaction Name"><input type="submit" value="Create"></input></form><div id="members"></div></div>`);
+    document.getElementById('main-container').insertAdjacentHTML('afterbegin', `<div class="ntinit" id="people"><div class="tdateinfo">${today}</div><form id="addperson-form"><div class="finput"><input type="text" name="person" id="personName" required minlength="4" maxlength="7" autocomplete="off" placeholder="Person name"><button type="submit"><i class="material-icons">person_add</i></button></div></form><form id="newTransaction-form"><input type="text" name="transaction-name" id="transaction-name" required minlength="2" maxlength="20" autocomplete="off" placeholder="Transaction Name"><input type="submit" value="Create"></input></form><div id="members"></div></div>`);
     document.getElementById('members').insertAdjacentHTML('beforeend', `<div class="mdbrief">Members</div><div class="ntmember"><div class="ntmname"><span>Me</span></div></div>`);
     
     // PREVENT ANY DEFAULT FOR FORM SUBMISSIONS

@@ -37,7 +37,7 @@ const getTransaction = (tid, receipt) => {
 const generateReceipt = (transcT)=>{
     let receipt = new Array(transcT.members.length);
     for(i=0;i<receipt.length;i++){
-        receipt[i] = {name: transcT.members[i], contri: new Array()};
+        receipt[i] = {name: transcT.members[i], paidamount: 0, contri: new Array()};
     }
     
     transcT.items.forEach((item)=>{
@@ -45,6 +45,7 @@ const generateReceipt = (transcT)=>{
         item.splitInto.forEach((member)=>{
             receipt[parseInt(member.id)].contri.push({name: itemname, amount: member.amount});
         });
+        receipt[item.paidby].paidamount+=item.amount;
     });
 
     return receipt;
@@ -68,9 +69,9 @@ const displayReceipt = (receipt, tid) => {
     const rdcol2 = document.getElementById(`receipt-${tid}-col-2`);
     receipt.forEach((member, i)=>{
         if((i%2)===0){
-            rdcol1.insertAdjacentHTML('beforeend', `<div class="rmcard" id="receipt-${tid}-rmember-${i}"><div class="rmdetails" id="rmember-${i}-name">${member.name}</div></div>`);
+            rdcol1.insertAdjacentHTML('beforeend', `<div class="rmcard" id="receipt-${tid}-rmember-${i}"><div class="rmdetails"><div id="rmember-${i}-name">${member.name}</div><div id="rmember-${i}-paid">Paid</div><div id="rmember-${i}-total">Total</div></div></div>`);
         }else{
-            rdcol2.insertAdjacentHTML('beforeend', `<div class="rmcard" id="receipt-${tid}-rmember-${i}"><div class="rmdetails" id="rmember-${i}-name">${member.name}</div></div>`);
+            rdcol2.insertAdjacentHTML('beforeend', `<div class="rmcard" id="receipt-${tid}-rmember-${i}"><div class="rmdetails"><div id="rmember-${i}-name">${member.name}</div><div id="rmember-${i}-paid">Paid</div><div id="rmember-${i}-total">Total</div></div></div>`);
         }
         // rdetailsContainer.insertAdjacentHTML('beforeend', `<div class="rmcard" id="receipt-${tid}-rmember-${i}"><div class="rmdetails" id="rmember-${i}-name">${member.name}</div></div>`);
         let rmContainer = document.getElementById(`receipt-${tid}-rmember-${i}`);
@@ -82,6 +83,8 @@ const displayReceipt = (receipt, tid) => {
         });
         mtotal = mtotal.toFixed(2);
         document.getElementById(`rmember-${i}-name`).innerText += `: ${mtotal}`;
+        document.getElementById(`rmember-${i}-paid`).innerText += `: ${member.paidamount}`;
+        document.getElementById(`rmember-${i}-total`).innerText += `: ${member.paidamount-mtotal}`;
     });
     document.getElementById(`receipt-${tid}-details`).style.animation = 'slideup 0.4s ease';
 }

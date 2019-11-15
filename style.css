@@ -4,7 +4,6 @@ html{
 }
 body{
     font-family: 'Open Sans', sans-serif;
-    transform: scale(1.5);
 }
 
 /* <i class="material-icons">check_box_outline_blank</i> */
@@ -243,6 +242,7 @@ i.material-icons{
 /* Add Item members */
 .aiallmembers{
     padding: 10px;
+    font-weight: 700;
 }
 
 .aimember{
@@ -258,6 +258,15 @@ i.material-icons{
     background-color: #2d98da;
     margin-right: 10px;
     border-bottom: 1px solid white;
+}
+
+.pbmember{
+    font-size: 0.8em;
+    font-weight: 700;
+    padding: 2px 5px;
+    border:2px solid #34495e;
+    margin: 2px;
+    border-radius: 1020px;
 }
 
 .aimcbox{
@@ -278,6 +287,7 @@ i.material-icons{
 
 
 #total, #remaining{
+    margin-top: 7px;
     display: flex;
     justify-content: space-between;
 }

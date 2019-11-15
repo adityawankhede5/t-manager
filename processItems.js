@@ -10,6 +10,14 @@ const initItemsList = (transactionId) => {
         currentTransaction.members.forEach((member, i)=>{
         membersList.insertAdjacentHTML('beforeend', `<div id="member-${i}" class="aimember"><div class="aimname" onclick="cboxToggle(${i})" id="aim-${i}-container"><span id="member-${i}-name">${member}</span></div><div class="aimamount"><input type="number" name="contri-amt" id="member-${i}-contri" step="0.01" placeholder="Amount"></div><div onclick="cboxToggle(${i})" class="aimcbox"><input type="checkbox" name="isContri" id="member-${i}-checked" checked hidden><i id="aim-${i}-cbox" class="material-icons">check_box</i></div></div>`);
     });
+    
+    // ADD RADIO BUTTONS FOR PAID BY OPTION.
+    membersList.insertAdjacentHTML('beforeend', `<div id="paidby" class="paidby"><div style="padding: 5px;">Paid By:</div></div>`);
+    const paidbycontainer = document.getElementById('paidby');
+    currentTransaction.members.forEach((member, i)=>{
+        paidbycontainer.insertAdjacentHTML('beforeend', `<span id="pbm-${i}" class="pbmember" onclick="paidBy(${i})">${member}<input type="radio" name="pbm-radio" value="${i}" unchecked hidden></input></span>`);
+    }); 
+
     membersList.insertAdjacentHTML('beforeend', `<div id="total"><div class="sdname" id="sdtname"></div><div class="sdamount" id="sdtamount"></div></div><div id="remaining"><div class="sdname" id="sdrname"></div><div class="sdamount" id="sdramount"></div></div>`);
     document.getElementById('items').insertAdjacentHTML('beforeend', '<div id="items-list" class="itemslist"><div id="ilcol-0" class="ilcols"></div><div id="ilcol-1" class="ilcols"></div></div>');
     
@@ -18,6 +26,10 @@ const initItemsList = (transactionId) => {
         displayItems(currentTransaction);
     }    
     
+    // INITIALIZE AT LEAST ONE RADIO BUTTON
+    paidBy(0);
+
+
     // PREVENT ANY DEFAULTS
     document.getElementById('addItem-form').addEventListener('submit',(event)=>{
         event.preventDefault();
@@ -50,6 +62,17 @@ const displayItems = (currentTransaction)=>{
 
 }
 
+const paidBy = (mid) =>{
+    const allPaidByMembers = document.querySelectorAll('.pbmember');
+    allPaidByMembers.forEach((member, i)=>{
+        member.style.background = "white";
+        member.style.color = "black";
+    });    
+    allPaidByMembers[mid].children[0].checked = true;
+    allPaidByMembers[mid].style.background = "#34495e";
+    allPaidByMembers[mid].style.color = "white";
+}
+
 const cboxToggle = (mid) => {
     if(document.getElementById(`member-${mid}-checked`).checked){
         // console.log('checked');
@@ -78,8 +101,10 @@ const split =()=>{
     }
 }
 
+
+
 const appendItem = (transactionId, currentTransaction) => {
-    // let item = {name: itemname, amount: amt, splitInto: [{name, amount}]};
+    // let item = {name: itemname, amount: amt, paidby: pbm-id ,splitInto: [{name, amount}]};
     if(document.getElementById('items-list')!==null){
         document.getElementById('items-list').style.display = 'flex';
     }
@@ -90,6 +115,7 @@ const appendItem = (transactionId, currentTransaction) => {
     const amount = parseFloat(document.getElementById('item-amt').value);
     const members = document.querySelectorAll('#members-in .aimember');
     let splitInto = [];
+    let uncheckedMembers = [];
     let mname, mamount,totalAmount=0;
     for(let i=0;i<members.length;i++){
         if(members[i].children[2].children[0].checked){
@@ -101,6 +127,8 @@ const appendItem = (transactionId, currentTransaction) => {
             }
             
             splitInto.push({id: i,name: mname, amount: mamount});
+        }else{
+            uncheckedMembers.push(i);
         }
     }
     document.getElementById('sdtname').innerText = 'Total';
@@ -118,8 +146,9 @@ const appendItem = (transactionId, currentTransaction) => {
         return;
     }
     
+    const paidby = parseInt(document.querySelector('input[name="pbm-radio"]:checked').value);
     document.getElementById('remaining').style.border = '';
-    item = {name, amount, splitInto};
+    item = {name, amount, paidby, splitInto};
     currentTransaction.items.push(item);
     const itemId = currentTransaction.items.length-1;     
     let allTransactions = JSON.parse(localStorage.getItem("allTransactions"));
@@ -143,6 +172,10 @@ const appendItem = (transactionId, currentTransaction) => {
     });
     // console.log(document.getElementById('addItem-form'));
     document.getElementById('addItem-form').reset();
+    uncheckedMembers.forEach((mid)=>{
+        members[mid].children[2].children[0].checked=false;
+    });
+    document.querySelectorAll('input[name="pbm-radio"]')[paidby].checked = true;
     // console.log(localStorage);   
 }
 
